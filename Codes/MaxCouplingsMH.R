@@ -15,7 +15,10 @@ Remainder_Y = function(x, y){
 
 # Function that returns normalizing constant of \Pi_{X, Y}(.)
 Normalize_Pi = function(x, y){
-
+	integrand = function(t){
+		min(dnorm(t, mean = x, sd = 1), dnorm(t, mean = y, sd = 1))
+	}
+	return(integrate(Vectorize(integrand), lower = -Inf, upper = Inf))
 }
 
 # Number of MC draws
