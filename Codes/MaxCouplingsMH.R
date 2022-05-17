@@ -75,15 +75,15 @@ Normalize_Pi = function(x, y){
 }
 
 # Number of MC draws
-N = 1e2
+N = 1e3
 
 # Parallel MCs
 X = numeric(N)
 Y = numeric(N)
 
 # Initial draws for both the chains
-X[1] = rnorm(1)
-Y[1] = rnorm(1)
+X[1] = 100
+Y[1] = -100
 
 # Unif r.v.s
 U = runif(N, 0, 1)
@@ -97,4 +97,5 @@ for(i in 2:N){
 		Y[i] = Remainder_Y(X[i-1], Y[i-1])
 	}
 }
-print(head(X-Y, n = 20))
+plot(X[1:300], type='l', ylim=c(-110, 110), col='red')
+lines(Y[1:300], col='blue')
