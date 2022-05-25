@@ -96,29 +96,62 @@
 
 \begin{document}
 \maketitle
-\section{Week 1}
-	\subsection{Deciding on the project}
-		We talked about three project ideas
-		\begin{enumerate}
-			\item Explicit block couplings on "symmetric", "big" $\Omega$'s.\\
-				Eg. The Ising model on $\mathbb{Z}^2_n$
-			\item Existence of MMC's
-				Look at prof Aaron's notes on MMC.
-			\item Computing couplings for stats. (Eg. work done by Jacob Pierre)\\
-				Read: Pierre's notes on Couplings
-		\end{enumerate}
-		I decided to try the third one first.
+	\section{Week 1}
+		\subsection{Deciding on the project}
+			We talked about three project ideas
+			\begin{enumerate}
+				\item Explicit block couplings on "symmetric", "big" $\Omega$'s.\\
+					Eg. The Ising model on $\mathbb{Z}^2_n$
+				\item Existence of MMC's
+					Look at prof Aaron's notes on MMC.
+				\item Computing couplings for stats. (Eg. work done by Jacob Pierre)\\
+					Read: Pierre's notes on Couplings
+			\end{enumerate}
+			I decided to try the third one first.
 
-	\subsection{To proceed on the third project}
-		There were three tasks to be done.
-		\begin{enumerate}
-			\item Set up dropbox to write notes\\
-				\Update: Done.
-			\item Find Pierre's notes on Couplings and read a bit.\\
-				\Update: I found the notes. I'm reading them up, and will be done with 3 chapters of it by our next meeting (I guess on Tuesday)
-   			\item Try a simple example (Suggestion : MH algoritm on $N(0, 1)$ with mirror and maximal)\\
+		\subsection{To proceed on the third project}
+			There were three tasks to be done.
+			\begin{enumerate}
+				\item Set up dropbox to write notes\\
+					\Update: Done.
+				\item Find Pierre's notes on Couplings and read a bit.\\
+					\Update: I found the notes. I'm reading them up, and will be done with 3 chapters of it by our next meeting (I guess on Tuesday)
+				\item Try a simple example (Suggestion : MH algoritm on $N(0, 1)$ with mirror and maximal)\\
 
-		\end{enumerate}
+			\end{enumerate}
+
+	\section{Week 2}
+		\begin{itemize}
+			\item Created a github repo for the whole project.
+			\item Coded up MH on N(0, 1) using the maximal couplings. (\todo: Will add the algorithm later in the doc as well)
+			\item Studied maximal coupling, optimal transport coupling, total variation norm, weisserstein distances.
+			\item Meeting \#2 with Aaron:
+				\begin{itemize}
+					\item Discussed about when a coupling is faithful, coupling inequality and mixing time in our context (\todo: fill in the details)
+					\item Discussed the main idea of Broderick et al's paper. The setting of the problem is basically we have a lot of vertices with +1 and -1 labellings.
+					We want to connect them using edges to make a graph such that the energy of the graph is as minimum as possible (energy is lower if we minimize the number of edges between opposite signed vertices)(\todo: add the actual energy formula)
+					This is kind of like a clustering problem. The problem is to draw from configurations like these.
+					\item The paper doesn't contribute much theoretically but is very well written. The work done is on a computer and some new things and ideas are presented. The aim of our project is to take one of the below presented problems, try to make some progress in them and write a Broderick style paper on it.
+					\item We then discussed the following three problems:
+						\begin{enumerate}
+							\item NNMF : The problem is that we have a very large matrix and we need to decompose it into product of smaller dimension matrices such that the energy is minimized. (\todo: write the exact formula for energy) Then draw from the defined distribution. This is also similar to the classification problem, just not very obvious.
+							\item Ranking : We have n teams, and N games between them. Based on the win/lose data, we try to rank them so that the energy is minimized (\todo: write the exact energy formula). (\todo: get a symmetric formula for energy (HINT: use the bradley-terry model)) Then draw from the probability distribution.
+							This problem for $\beta = 0$ is called the random transposition walk (like glauber dynamics)
+							\item Q: What happens when $\beta$ is small. Problem is a similar phenomenon to Gibbs algo on simplexes.
+						\end{enumerate}
+				\end{itemize}
+			\item Studied convergence of Markov chains and application of coupling techniques to prove convergence.
+		\end{itemize}
+
+	\section{Week 3}
+		Tasks for the week
+		\begin{itemize}
+			\item Complete Jacob's notes and lecture videos
+			\item Broderick's paper
+   			\item Study more about these problems, try to work out some details
+      		\item Try to read Lindvall :)
+		\end{itemize}
+
 
 
 

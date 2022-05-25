@@ -1,9 +1,9 @@
-PWD /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates
+PWD /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates
 INPUT /usr/local/texlive/2021/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.tex
-OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.log
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.tex
+OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.log
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
@@ -19,17 +19,17 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/PRIMEarxiv.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
@@ -722,10 +722,10 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.aux
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.aux
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.aux
-OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.aux
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux
+OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/color.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/color.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/color.sty
@@ -778,18 +778,18 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/gettitlestring/gettitlestri
 INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.pdf
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.pdf
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+OUTPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-ptm.cfg
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-ptm.cfg
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-ptm.cfg
@@ -846,6 +846,11 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmrc8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
@@ -856,9 +861,11 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.aux
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
-INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/Codes/Updates/templateArxiv.out
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
+INPUT /Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.out
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
