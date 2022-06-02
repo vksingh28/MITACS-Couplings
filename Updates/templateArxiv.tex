@@ -177,10 +177,44 @@
 			\item Complete Jacob's notes and lecture videos
 			\item Broderick's paper
    			\item Study more about these problems, try to work out some details
-      		\item Try to read Lindvall :)
 		\end{itemize}
+		Decided to work on NNMF
 
-
+	\section{Week 4}
+	\begin{itemize}
+		\item Meeting \#3 with Aaron:
+			\begin{itemize}
+					\item Read the following stuff:
+						\begin{itemize}
+							\item hit and run as a unifying device (also see geyer notes on hit and run algorithms)
+							\item "sandwich algorithm" by Kshitij Khare
+							\item Hamiltonion Monte Carlo (simplest concrete example for our problem)
+						\end{itemize}
+					\item NNMF is analogous to mixture models, and we can visualize mixture model in the 1-dim case. Problem is first to find an analogous version of mixture models in the discrete case so that visualization is easier.
+					\item Paper idea \#1 (easier): Deal with the label-switching problem in the case of $3$ modes by projecting state space.\\
+					$M = [v_1, \cdots, v_1, v_2, \cdots, v_2, v_3, \cdots, v_3]$, modes are $C = [v_1, v_2]$ or $C = [v_1, v_3]$ or $C = [v_3, v_1]$, all possible label switchings, all convex combinations.\\
+					These modes are good candidates in the case of $||\cdot||_0$, bad for $||\cdot||_{\infty}$. Need to test for all the other distances in between.\\
+					The problem is to deal with all these label switching cases by projecting the state space to partition space of some sort as done in Broderick et. al's paper.
+					\item Paper idea \#2 (tougher but more interesting): Work in the discrete state space setting, find couplings that hit in here, and try to tweak it so that the same thing kind of works in the continuous state as well.\\
+					Our approach is the following:
+					\begin{enumerate}
+						\item From the general matrix $M'$ in consideration, we somehow get $M$ which has finite number of distinct columns less than the number of columns of $M'$ (this is a clustering problem on its own).
+      					\item Now from columns of $M$, we get all the possible modes and consider a graph with those modes as our vertices.
+           				\item Q: How does likelihood look on paths between nodes.
+           				\item We find couplings in this graph that hits  in finite time (maybe we can use Broderick's ideas).
+               			\item Then using the coupling in the discrete case, by some "tweaks" we can try to find a coupling in the continuous case.
+					\end{enumerate}
+					\item Another interesting question: in higher dimension, can we get situations where mixing is quick but meeting is slower? (for eg. in the case of random transposition walk, mixing is $O(n\log n)$ and meeting is $O(n^2)$)\\
+					Idea: construct some examples where there are "good paths" between vertices of our graph.
+			\end{itemize}
+		\item Plan of action:
+			First I'll start working on the easier idea.
+			\begin{itemize}
+				\item Hard code a 3 distinct vector matrix of choice.
+    			\item Create a suitable penalty function and probability distribution using that function.
+    			\item Samples nodes from this distribution using MCMC (MH-algo for starters).
+			\end{itemize}
+	\end{itemize}
 
 
 \end{document}

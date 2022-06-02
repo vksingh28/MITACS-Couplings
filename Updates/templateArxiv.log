@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.14)  25 MAY 2022 12:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.14)  2 JUN 2022 15:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -575,23 +575,23 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [1
 
 
-{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (/Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux)
+{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] (/Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.aux)
 Package rerunfilecheck Info: File `templateArxiv.out' has not changed.
-(rerunfilecheck)             Checksum: CC504CED2318F3D43997B68EBEDABF4C;636.
+(rerunfilecheck)             Checksum: D824692C8EA8934F68791FBA489C0D9A;712.
  ) 
 Here is how much of TeX's memory you used:
- 14152 strings out of 478994
- 224256 string characters out of 5858184
- 698290 words of memory out of 5000000
- 31288 multiletter control sequences out of 15000+600000
- 438170 words of font info for 113 fonts, out of 8000000 for 9000
+ 14173 strings out of 478994
+ 224442 string characters out of 5858184
+ 699290 words of memory out of 5000000
+ 31290 multiletter control sequences out of 15000+600000
+ 438690 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 83i,11n,88p,445b,534s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 83i,11n,88p,445b,615s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "/Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.pdf" (2 pages, 127967 bytes).
+Output written on "/Users/vivekkumarsingh/Desktop/Research Internship /Mitacs/Work/MITACS-Couplings/Updates/templateArxiv.pdf" (3 pages, 134190 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
- 19 named destinations out of 1000 (max. 500000)
- 40489 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 121 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 40497 words of extra memory for PDF output out of 42996 (max. 10000000)
 
