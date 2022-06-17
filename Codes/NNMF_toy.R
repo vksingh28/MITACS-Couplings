@@ -23,14 +23,17 @@ M
 # loss function / penalty function
 penalty = function(C, R, M) {
 	# trying to minimize l-0 norm
-	loss = 0.01*sum(R*(R>1)) + 0.01*sum((abs(M-C%*%R))^2)^0.5 + sum((abs(M-C%*%R))^0.5)^2
+	# 0<p<1
+	p = 0.5
+	q = 1/p
+	loss = 0.005*sum((abs(M-C%*%R))^2)^0.5 + sum((abs(M-C%*%R))^p)^(q)
 	# loss = 1000*sum((M-C%*%R)!=0) + sum((abs(M-C%*%R))^0.5)^2 + 200*(sum(C<0) + sum(R<0)) + sum(abs(M-C%*%R))
 	return (loss)
 }
 
 # probability distribution (beta is a hyperparameter) to draw C and R
 prob_dist = function(CR, M) {
-	beta = 10
+	beta = 1
 	x = m*k
 	y = m*k+1
 	z = (m+n)*k
@@ -51,16 +54,18 @@ for(i in 1:k){
 	e[[i]][i] = 1
 }
 
+initial_node = c(v[[3]], v[[2]], v[[5]], numeric(3), numeric(3), e[[2]],e[[2]], e[[1]],e[[1]], numeric(3), numeric(3), e[[3]],e[[3]])
 gibbs_nnmf = function(M){
 	CR = list()
 	acceptance_prob = c()
 	prob_density = c()
-	CR[[1]] = c(v[[3]], v[[2]], v[[5]], e[[1]],e[[1]], e[[2]],e[[2]], numeric(3), numeric(3), numeric(3), numeric(3), e[[3]],e[[3]]) + c(rtnorm(15, mean=0, sd=1, lower=0), rtnorm(30, mean=0, sd=1, lower=0))
+	CR[[1]] = initial_node + c(rtnorm(15, mean=0, sd=2, lower=0), rtnorm(30, mean=0, sd=1, lower=0))
 	for(i in 2:reps){
 		current_x = CR[[i-1]]
 		# possible_indices = (m*k+1):(m*k+k*n) - ()
 		# possible_indices = c(16:18,19:21,34:36,37:39, 40:42, 43:45)
 		for(j in 1:45){
+			k = ceiling(runif(1, min=0, max=45))
 			proposed_x = current_x
 			proposed_x[j] = current_x[j] + rnorm(1, 0, .1)
 			prob_density = c(prob_density, prob_dist(proposed_x, M))
@@ -69,17 +74,17 @@ gibbs_nnmf = function(M){
 			if(proposed_x[j] >= 0){
 				acceptance_prob = c(acceptance_prob, min(1,exp(mh_ratio)))
 			}
-			print(paste("mh: ", exp(mh_ratio)))
-			if((runif(1) < exp(mh_ratio)) && (proposed_x[j] >= 0)){
+			print(paste("mh: ", mh_ratio))
+			if((log(runif(1)) < mh_ratio) && (proposed_x[j] >= 0)){
 				current_x = proposed_x
 				accept = accept + 1
-				print(accept)
 			}
 		}
 		CR[[i]] = current_x
 	}
-
-	hist(prob_density)
+	print(accept)
+	print(accept/(reps*45))
+	# hist(prob_density)
 	hist(acceptance_prob)
 	return (CR)
 }
@@ -91,11 +96,12 @@ y = m*k+1
 z = (m+n)*k
 C = matrix(CR[[reps]][1:x], nrow = m, ncol = k)
 R = matrix(CR[[reps]][y:z], nrow = k, ncol = n)
-C1 = matrix(CR[[1]][1:x], nrow = m, ncol = k)
-R1 = matrix(CR[[1]][y:z], nrow = k, ncol = n)
+C1 = matrix(initial_node[1:x], nrow = m, ncol = k)
+R1 = matrix(initial_node[y:z], nrow = k, ncol = n)
 C1
 C
-
+penalty(C, R, M)
+penalty(C1, R1, M)
 R1
 R
 
@@ -104,17 +110,5 @@ M-C1%*%R1
 # C%*%R
 # M
 
-#           [,1]       [,3]      [,5]      [,7]
-# [1,]  7.551818   6.476649  8.663017  20.59390
-# [2,] 11.816428   6.151563  7.927327  20.91898
-# [3,]  1.457067   4.389223  9.749586  20.78214
-# [4,]  1.397953   8.023562  2.730398  20.07456
-# [5,]  4.360686   5.779686  2.902858  18.01065
-#          [,9]    [,10]      [,12]
-# [1,]  15.06198  3.0897078
-# [2,]  14.99439  7.7933978
-# [3,]  14.98442  0.4860614
-# [4,]  14.85292  2.9383581
-# [5,]  14.95218  0.7309748
-
-# v2,v3,v6
+# v3,v2,v5
+# v3,v1,v5
