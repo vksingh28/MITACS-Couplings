@@ -1,8 +1,4 @@
 library("msm")
-set.seed(1)
-# v1 = c(1,2,3)
-# v2 = c(5,8,10)
-# v3 = c(13,15,26)
 m = 5
 n = 5*2
 k = 3
@@ -11,12 +7,6 @@ for(i in 1:m){
 	v[[i]] = numeric(m)
 	v[[i]][i] = 1
 }
-# v[[1]] = rtnorm(m, mean = 0, sd = 10, lower=0)
-# v[[2]] = rtnorm(m, mean = 5, sd = 2, lower=0)
-# v[[3]] = rtnorm(m, mean = 3, sd = 6, lower=0)
-# v[[4]] = rtnorm(m, mean = 20, sd = 1, lower=0)
-# v[[5]] = rtnorm(m, mean = 15, sd = 0.1, lower=0)
-# v[[6]] = rtnorm(m, mean = 1, sd = 5, lower=0)
 M = matrix(c(v[[1]],v[[1]],v[[2]],v[[2]],v[[3]],v[[3]],v[[4]],v[[4]],v[[5]],v[[5]]), nrow = m, ncol = n)
 M
 
@@ -26,21 +16,31 @@ penalty = function(C, R, M) {
 	# 0<p<1
 	p = 0.5
 	q = 1/p
-	loss = 0.005*sum((abs(M-C%*%R))^2)^0.5 + sum((abs(M-C%*%R))^p)^(q)
-	# loss = 1000*sum((M-C%*%R)!=0) + sum((abs(M-C%*%R))^0.5)^2 + 200*(sum(C<0) + sum(R<0)) + sum(abs(M-C%*%R))
+	# colSumRestrict = 0
+	# tol = 1e-1
+	# for(i in 1:dim(R)[2]){
+	# 	if(sum(R[, i]) > 1){
+	# 		error = sum(R[, i])
+	# 	} else {
+	# 		error = 1-sum(R[, i])
+	# 	}
+	# 	colSumRestrict = colSumRestrict + error# + (abs(sum(R[, i])-1)>tol)
+	# }
+	# colSumRestrict
+	# loss = 0.01*sum((abs(M-C%*%R))^2)^0.5 + sum((abs(M-C%*%R))^p)^(q) + 0.01*sum(abs(R > 1)) + 0.01*sum(R < 0.01)
+	loss = sum((abs(M-C%*%R))^p)^(q) + 0.001*sum((abs(M-C%*%R))^2)^0.5
+	loss
 	return (loss)
 }
 
 # probability distribution (beta is a hyperparameter) to draw C and R
 prob_dist = function(CR, M) {
-	beta = 1
+	beta = 10
 	x = m*k
 	y = m*k+1
 	z = (m+n)*k
 	C = matrix(CR[1:x], nrow = m, ncol = k)
 	R = matrix(CR[y:z], nrow = k, ncol = n)
-	# discussed probability distribution using the penalty function
-	# value = exp(-beta*penalty(C, R, M))
 	value = -beta*penalty(C,R,M)
 	return (value)
 }
@@ -55,35 +55,63 @@ for(i in 1:k){
 }
 
 initial_node = c(v[[3]], v[[2]], v[[5]], numeric(3), numeric(3), e[[2]],e[[2]], e[[1]],e[[1]], numeric(3), numeric(3), e[[3]],e[[3]])
+# initial_node = rtnorm(45, mean=0, sd = 10, lower = 0)
 gibbs_nnmf = function(M){
 	CR = list()
 	acceptance_prob = c()
 	prob_density = c()
 	CR[[1]] = initial_node + c(rtnorm(15, mean=0, sd=2, lower=0), rtnorm(30, mean=0, sd=1, lower=0))
+	for(i in c(16,19,22,25,28,31,34,37,40,43)){
+		j = i+2
+		CR[[1]][i:j] = CR[[1]][i:j]/(sum(CR[[1]][i:j]))
+	}
+	indices = c(1:15,16,19,22,25,28,31,34,37,40,43)
+	# indices = c(1:45)
 	for(i in 2:reps){
 		current_x = CR[[i-1]]
-		# possible_indices = (m*k+1):(m*k+k*n) - ()
-		# possible_indices = c(16:18,19:21,34:36,37:39, 40:42, 43:45)
-		for(j in 1:45){
-			k = ceiling(runif(1, min=0, max=45))
-			proposed_x = current_x
-			proposed_x[j] = current_x[j] + rnorm(1, 0, .1)
-			prob_density = c(prob_density, prob_dist(proposed_x, M))
-			# mh_ratio = prob_dist(proposed_x, M)/prob_dist(current_x, M)
-			mh_ratio = (prob_dist(proposed_x, M)-prob_dist(current_x, M))
-			if(proposed_x[j] >= 0){
-				acceptance_prob = c(acceptance_prob, min(1,exp(mh_ratio)))
+		# for(reps in 1:45){
+			j = sample(indices, 1)
+			if(j <= 15){
+			# for(j in 1:15){
+				proposed_x = current_x
+				proposed_x[j] = current_x[j] + rnorm(1, 0, .1)
+				prob_density = c(prob_density, prob_dist(proposed_x, M))
+				mh_ratio = (prob_dist(proposed_x, M)-prob_dist(current_x, M))
+				if(proposed_x[j] >= 0){
+					acceptance_prob = c(acceptance_prob, min(1,exp(mh_ratio)))
+				}
+				print(paste("mh: ", mh_ratio))
+				if((log(runif(1)) < mh_ratio) && (proposed_x[j] >= 0)){
+					current_x = proposed_x
+					accept = accept + 1
+				}
+			} else {
+			# for(k in c(16,19,22,25,28,31,34,37,40,43)){
+				# for(rep in 1:3){
+					proposed_x = current_x
+					# r = k+ceiling(runif(2, 0, 3))-1
+					# r = k+c((rep-1)%%3, (rep)%%3)
+					r = sample(c(j, j+1, j+2), 2, replace=FALSE)
+					rw = rnorm(1, 0, .1)
+					proposed_x[r[1]] = current_x[r[1]] + rw
+					proposed_x[r[2]] = current_x[r[2]] - rw
+					prob_density = c(prob_density, prob_dist(proposed_x, M))
+					mh_ratio = (prob_dist(proposed_x, M)-prob_dist(current_x, M))
+					if((proposed_x[r[1]] >= 0) && (proposed_x[r[2]] >= 0)){
+						acceptance_prob = c(acceptance_prob, min(1,exp(mh_ratio)))
+					}
+					print(paste("mh: ", mh_ratio))
+					if((log(runif(1)) < mh_ratio) && (proposed_x[r[1]] >= 0) && (proposed_x[r[2]] >= 0)){
+						current_x = proposed_x
+						accept = accept + 1
+					}
+				# }
 			}
-			print(paste("mh: ", mh_ratio))
-			if((log(runif(1)) < mh_ratio) && (proposed_x[j] >= 0)){
-				current_x = proposed_x
-				accept = accept + 1
-			}
-		}
+		# }
 		CR[[i]] = current_x
 	}
 	print(accept)
-	print(accept/(reps*45))
+	print(accept/(reps))
 	# hist(prob_density)
 	hist(acceptance_prob)
 	return (CR)
@@ -106,9 +134,19 @@ R1
 R
 
 M-C%*%R
+x = matrix(M-C%*%R, nrow=1)
+hist(x)
 M-C1%*%R1
 # C%*%R
 # M
-
+CR[[reps]][16:18]
 # v3,v2,v5
 # v3,v1,v5
+
+for(k in c(16,19,22,25,28,31,34,37,40,43)){
+	# r = k+ceiling(runif(2, 0, 3))-1
+	for(rep in 1:3){
+		r = k+c((rep-1)%%3, (rep)%%3)
+		print(r)
+	}
+}
