@@ -42,8 +42,8 @@ lines(density(generated_samples), col = "blue", lwd = 2)
 R = 1e4
 burn_in = 1e3
 C = matrix(NA, nrow = d, ncol = R)
-
-c = c(0.1, 0.1, 0.8)
+#TODO: change this step to be a uniform sample from the simplex using dirichlet distribution
+c = c(0.1, 0.2, 0.7)
 for(r in 1:(R + burn_in)){
 	if(r%%1000 == 0 & r <= burn_in){
       print(paste("Warm-up: iteration:", r))
@@ -74,6 +74,8 @@ for(r in 1:(R + burn_in)){
 		C[, r - burn_in] = c
 	}
 }
+# pretty stable estimates
+cat("Row means =", rowMeans(C), "\nrow variances =", apply(C, 1, var), "\n")
 
 #####################################################################################
 # Proportional Coupling
