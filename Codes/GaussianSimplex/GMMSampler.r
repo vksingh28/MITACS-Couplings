@@ -79,3 +79,41 @@ cat("Row means =", rowMeans(C), "\nrow variances =", apply(C, 1, var), "\n")
 
 #####################################################################################
 # Proportional Coupling
+R_prop = 1e3
+X = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain randomly
+Y = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain from the actual distribution using the gibbs sample
+# TODO: need to sample from the uniform using dirichlet distribution
+X[, 1] = c(0.1, 0.5, 0.4); x = X[, 1]
+Y[, 1] = C[, R]; y = Y[, 1]
+for(r in 2:R_prop){
+	if(r %% 1000 == 0){
+		print(paste("iteration: ", r))
+	}
+	x_new = x; y_new = y
+	lambda = runif(1)
+	indices = sample(1:d, 2, replace = FALSE)
+	i = indices[1]; j = indices[2]
+	x_new[i] = lambda * (x[i] + x[j])
+	x_new[j] = (1-lambda) * (x[i] + x[j])
+	y_new[i] = lambda * (y[i] + y[j])
+	y_new[j] = (1-lambda) * (y[i] + y[j])
+
+	# MH Step
+	log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
+	log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
+
+	# can use other couplings, rn using the same thing
+	log_unif_x = log_unif_y = log(runif(1))
+
+	if(log_unif < min(0, log_rho_x)){
+		x = x_new
+	}
+	if(log_unif < min(0, log_rho_y)){
+		y = y_new
+	}
+	X[, r] = x; Y[, r] = y
+}
+sqrt(rowMeans((X-Y)^2))
+apply(X-Y, 1, var)
+# pretty stable estimates
+cat("Row means =", sqrt(rowMeans((X-Y)^2)), "\nrow variances =", apply(X-Y, 1, var), "\n")
