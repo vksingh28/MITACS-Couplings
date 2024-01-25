@@ -2,13 +2,17 @@
 set.seed(123)
 
 #####################################################################################
+# Libraries
+library(rBeta2009)
+
+#####################################################################################
 # GMM Sampler
 
 # Define parameters for the Gaussian Mixture Model
-d = 3 	# Number of families (dimension of the simplex)
-means = c(1, 4, 8)  # Mean values for each component
-variances = c(1, 1, 1)  # Variances for each component
-proportions = c(0.3, 0.4, 0.3)  # Proportions for each component
+d = 10 	# Number of families (dimension of the simplex)
+means = c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28)  # Mean values for each component
+variances = numeric(d)+1  # Variances for each component
+proportions = as.vector(rdirichlet(1, rep(1, d)))  # Proportions for each component
 
 # Number of samples to generate
 num_samples = 1000
@@ -42,8 +46,7 @@ lines(density(generated_samples), col = "blue", lwd = 2)
 R = 1e4
 burn_in = 1e3
 C = matrix(NA, nrow = d, ncol = R)
-#TODO: change this step to be a uniform sample from the simplex using dirichlet distribution
-c = c(0.1, 0.2, 0.7)
+c = as.vector(rdirichlet(1, rep(1, d)))
 for(r in 1:(R + burn_in)){
 	if(r%%1000 == 0 & r <= burn_in){
       print(paste("Warm-up: iteration:", r))
@@ -76,14 +79,13 @@ for(r in 1:(R + burn_in)){
 }
 # pretty stable estimates
 cat("Row means =", rowMeans(C), "\nrow variances =", apply(C, 1, var), "\n")
-
+proportions
 #####################################################################################
 # Proportional Coupling
 R_prop = 1e3
 X = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain randomly
 Y = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain from the actual distribution using the gibbs sample
-# TODO: need to sample from the uniform using dirichlet distribution
-X[, 1] = c(0.1, 0.5, 0.4); x = X[, 1]
+X[, 1] = as.vector(rdirichlet(1, rep(1, d))); x = X[, 1]
 Y[, 1] = C[, R]; y = Y[, 1]
 for(r in 2:R_prop){
 	if(r %% 1000 == 0){
@@ -113,7 +115,6 @@ for(r in 2:R_prop){
 	}
 	X[, r] = x; Y[, r] = y
 }
-sqrt(rowMeans((X-Y)^2))
-apply(X-Y, 1, var)
+
 # pretty stable estimates
-cat("Row means =", sqrt(rowMeans((X-Y)^2)), "\nrow variances =", apply(X-Y, 1, var), "\n")
+cat("Row means =", rowMeans(abs(X-Y)), "\nrow variances =", apply(X-Y, 1, var), "\n")
