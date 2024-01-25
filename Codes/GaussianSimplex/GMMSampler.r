@@ -3,6 +3,7 @@ set.seed(123)
 
 #####################################################################################
 # Libraries
+install.packages("rBeta2009")
 library(rBeta2009)
 
 #####################################################################################
@@ -81,8 +82,13 @@ for(r in 1:(R + burn_in)){
 cat("Row means =", rowMeans(C), "\nrow variances =", apply(C, 1, var), "\n")
 proportions
 #####################################################################################
+# First Coupling Stage
+#####################################################################################
 # Proportional Coupling
-R_prop = 1e3
+# R_prop = 1e3
+exp_bound = 4
+R_prop = 2*ceiling(3/2*exp_bound*d*log(d)) # Trying out the Theorem of Simplex Mixing Time
+
 X = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain randomly
 Y = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain from the actual distribution using the gibbs sample
 X[, 1] = as.vector(rdirichlet(1, rep(1, d))); x = X[, 1]
@@ -116,5 +122,26 @@ for(r in 2:R_prop){
 	X[, r] = x; Y[, r] = y
 }
 
-# pretty stable estimates
-cat("Row means =", rowMeans(abs(X-Y)), "\nrow variances =", apply(X-Y, 1, var), "\n")
+print(sum((X[, R_prop]-Y[, R_prop])^2))
+print(d^(-exp_bound))
+
+#####################################################################################
+# Current goal right now and some thoughts
+#####################################################################################
+
+# we shrinked X and Y very close to each other
+# now we need to create the sequence of graphs/partitions
+# first we sample a shit ton of index pairs uniformly
+# then we construct the partition pairs
+# then we do the coupling steps which is if the time agrees, do subset, otherwise to proportional
+# a little caveat here, when doing subset coupling, we'll also check for the MH step as we're not sampling
+# from the uniform distribution, we have our own posterior. so our algorithm might take more time to couple,
+# but probably only by a factor of something and won't change the complexity is what I feel!
+
+
+# Second coupling stage
+#####################################################################################
+# we need a function to generate a shit ton of indices
+#TODO: we need a function to perform proportional coupling
+#TODO: we need a function to perform subset coupling
+#####################################################################################
