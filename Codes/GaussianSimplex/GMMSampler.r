@@ -113,10 +113,10 @@ for(r in 2:R_prop){
 	# can use other couplings, rn using the same thing
 	log_unif_x = log_unif_y = log(runif(1))
 
-	if(log_unif < min(0, log_rho_x)){
+	if(log_unif_x < min(0, log_rho_x)){
 		x = x_new
 	}
-	if(log_unif < min(0, log_rho_y)){
+	if(log_unif_y < min(0, log_rho_y)){
 		y = y_new
 	}
 	X[, r] = x; Y[, r] = y
@@ -160,7 +160,6 @@ S.t.1 = list();
 S.t.2 = list();
 partitions = list();
 partitions[[(T+1)]] = lapply(1:d, function(x) c(x));
-t = T+1
 for(t in (T+1):2){
 	partition_curr = partitions[[t]];
 	partition_next = list();
@@ -177,8 +176,8 @@ for(t in (T+1):2){
 	if(!identical(S_i, S_j)){
 		cat(t, !identical(S_i, S_j), "\n");
 		# S.t.1 = c(S_i, S.t.1); S.t.2 = c(S_j, S.t.1);
-		S.t.1[[length(S.t.1)+1]] = sort(S_i);
-		S.t.2[[length(S.t.2)+1]] = sort(S_j);
+		S.t.1[[t]] = sort(S_i);
+		S.t.2[[t]] = sort(S_j);
 		marked_times = c(marked_times, t);
 		S_new = sort(c(S_i, S_j));
 		# partition_next = c(partition_next, c(S_i, S_j));
@@ -194,3 +193,72 @@ for(t in (T+1):2){
 	}
 	partitions[[t-1]] = partition_next;
 }
+
+# new markov chains
+X_new = matrix(NA, nrow=d, ncol=T+1);
+Y_new = matrix(NA, nrow=d, ncol=T+1);
+x = X_new[, 1] = X[, R_prop];
+y = Y_new[, 1] = Y[, R_prop];
+# Subset coupling + proportional coupling
+for(t in 1:(T)){
+	i = indices[T+1-t, 1]; j = indices[T+1-t, 2];
+	x_new = x; y_new = y;
+	if((T+1-t) %in% marked_times){
+		# subset coupling
+		slope = (y[i]+y[j])/(x[i]+x[j]);
+		if(slope > 1){
+			diff_vec = y-x;
+			lambda_y = runif(1);
+			lambda_x = lambda_y*slope + 1/(x[i]+x[j])*sum(diff_vec[S.t.1[[T+1-t]]]);
+			lambda_x = min(1, lambda_x);
+		} else {
+			diff_vec = x-y;
+			slope = 1/slope;
+			lambda_x = runif(1);
+			lambda_y = lambda_x*slope + 1/(y[i]+y[j])*sum(diff_vec[S.t.1[[T+1-t]]]);
+			lambda_y = min(1, lambda_y);
+		}
+		x_new[i] = lambda_x * (x[i] + x[j]);
+		x_new[j] = (1-lambda_x) * (x[i] + x[j]);
+		y_new[i] = lambda_y * (y[i] + y[j]);
+		y_new[j] = (1-lambda_y) * (y[i] + y[j]);
+
+		# MH Step
+		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
+		log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
+
+		# can use other couplings, rn using the same thing
+		log_unif_x = log_unif_y = log(runif(1))
+
+		if(log_unif_x < min(0, log_rho_x)){
+			x = x_new
+		}
+		if(log_unif_y < min(0, log_rho_y)){
+			y = y_new
+		}
+	} else {
+		# proportional coupling
+		lambda = runif(1);
+		x_new[i] = lambda * (x[i] + x[j])
+		x_new[j] = (1-lambda) * (x[i] + x[j])
+		y_new[i] = lambda * (y[i] + y[j])
+		y_new[j] = (1-lambda) * (y[i] + y[j])
+
+		# MH Step
+		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
+		log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
+
+		# can use other couplings, rn using the same thing
+		log_unif_x = log_unif_y = log(runif(1));
+
+		if(log_unif_x < min(0, log_rho_x)){
+			x = x_new
+		}
+		if(log_unif_y < min(0, log_rho_y)){
+			y = y_new
+		}
+	}
+	X[, 1+t] = x; Y[, 1+t] = y;
+}
+
+X[, 1+T] - Y[, 1+T]
