@@ -141,7 +141,56 @@ print(d^(-exp_bound))
 
 # Second coupling stage
 #####################################################################################
-# we need a function to generate a shit ton of indices
+#TODO: we need a function to generate a shit ton of indices
 #TODO: we need a function to perform proportional coupling
 #TODO: we need a function to perform subset coupling
 #####################################################################################
+eps = 1;
+T = ceiling((0.5 + eps)*d*log(d));
+indices = matrix(NA, nrow = T, ncol = 2);
+for(i in 1:(T)){
+	indices[i, ] = sort(sample(1:d, 2, replace = FALSE));
+}
+# we need a vector called marked_times to store the marked times
+# we need a two lists to store the subsets S(t, 1) and S(t, 2)
+# we need a list to store the list of partitions at each step
+# TODO: this shit's gonna take too much memory, need to reduce it's complexity once it starts working.
+marked_times = c();
+S.t.1 = list();
+S.t.2 = list();
+partitions = list();
+partitions[[(T+1)]] = lapply(1:d, function(x) c(x));
+t = T+1
+for(t in (T+1):2){
+	partition_curr = partitions[[t]];
+	partition_next = list();
+	i = indices[t-1, 1]; j = indices[t-1, 2];
+	for(set in partition_curr){
+		# S_i is the set that contains i, S_j is the set that contains j
+		if(i %in% set){
+			S_i = set;
+		}
+		if(j %in% set){
+			S_j = set;
+		}
+	}
+	if(!identical(S_i, S_j)){
+		cat(t, !identical(S_i, S_j), "\n");
+		# S.t.1 = c(S_i, S.t.1); S.t.2 = c(S_j, S.t.1);
+		S.t.1[[length(S.t.1)+1]] = sort(S_i);
+		S.t.2[[length(S.t.2)+1]] = sort(S_j);
+		marked_times = c(marked_times, t);
+		S_new = sort(c(S_i, S_j));
+		# partition_next = c(partition_next, c(S_i, S_j));
+		partition_next[[length(partition_next)+1]] = S_new;
+		for(set in partition_curr){
+			if(!identical(set, S_i) & !identical(set, S_j)){
+				# partition_next = c(partition_next, set);
+				partition_next[[length(partition_next)+1]] = sort(set);
+			}
+		}
+	} else {
+		partition_next = partition_curr;
+	}
+	partitions[[t-1]] = partition_next;
+}
