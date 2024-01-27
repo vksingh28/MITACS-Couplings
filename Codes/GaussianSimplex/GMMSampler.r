@@ -3,20 +3,22 @@ set.seed(123)
 
 #####################################################################################
 # Libraries
-install.packages("rBeta2009")
+# install.packages("rBeta2009")
 library(rBeta2009)
 
 #####################################################################################
 # GMM Sampler
 
 # Define parameters for the Gaussian Mixture Model
-d = 10 	# Number of families (dimension of the simplex)
-means = c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28)  # Mean values for each component
-variances = numeric(d)+1  # Variances for each component
+d = 100 	# Number of families (dimension of the simplex)
+# means = c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28)  # Mean values for each component
+# variances = numeric(d)+1  # Variances for each component
+means = runif(d, -50, 50);
+variances = runif(d, 1, 50);
 proportions = as.vector(rdirichlet(1, rep(1, d)))  # Proportions for each component
 
 # Number of samples to generate
-num_samples = 1000
+num_samples = 100000
 
 # Generate data from the Gaussian Mixture Model
 generate_gmm_sample = function(n, means, variances, proportions) {
@@ -86,7 +88,7 @@ proportions
 #####################################################################################
 # Proportional Coupling
 # R_prop = 1e3
-exp_bound = 4
+exp_bound = 2
 R_prop = 2*ceiling(3/2*exp_bound*d*log(d)) # Trying out the Theorem of Simplex Mixing Time
 
 X = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain randomly
@@ -147,8 +149,8 @@ print(d^(-exp_bound))
 #####################################################################################
 eps = 1;
 T = ceiling((0.5 + eps)*d*log(d));
-indices = matrix(NA, nrow = T, ncol = 2);
-for(i in 1:(T)){
+indices = matrix(NA, nrow = T+1, ncol = 2);
+for(i in 2:(T+1)){
 	indices[i, ] = sort(sample(1:d, 2, replace = FALSE));
 }
 # we need a vector called marked_times to store the marked times
@@ -175,7 +177,6 @@ for(t in (T+1):2){
 	}
 	if(!identical(S_i, S_j)){
 		cat(t, !identical(S_i, S_j), "\n");
-		# S.t.1 = c(S_i, S.t.1); S.t.2 = c(S_j, S.t.1);
 		S.t.1[[t]] = sort(S_i);
 		S.t.2[[t]] = sort(S_j);
 		marked_times = c(marked_times, t);
@@ -200,28 +201,35 @@ Y_new = matrix(NA, nrow=d, ncol=T+1);
 x = X_new[, 1] = X[, R_prop];
 y = Y_new[, 1] = Y[, R_prop];
 # Subset coupling + proportional coupling
-for(t in 1:(T)){
+t = 1
+for(t in 1:(T+1)){
 	i = indices[T+1-t, 1]; j = indices[T+1-t, 2];
 	x_new = x; y_new = y;
-	if((T+1-t) %in% marked_times){
+	if((T+1-t+1) %in% marked_times){
+		print(t)
 		# subset coupling
 		slope = (y[i]+y[j])/(x[i]+x[j]);
 		if(slope > 1){
 			diff_vec = y-x;
 			lambda_y = runif(1);
-			lambda_x = lambda_y*slope + 1/(x[i]+x[j])*sum(diff_vec[S.t.1[[T+1-t]]]);
-			lambda_x = min(1, lambda_x);
+			set_diff = S.t.1[[T+1-t+1]]; set_diff = set_diff[set_diff != i];
+			lambda_x = lambda_y*slope + 1/(x[i]+x[j])*sum(diff_vec[set_diff]);
+			print(sum(diff_vec[set_diff]))
+			cat("x", lambda_x, "\n");
+			lambda_x = ifelse(lambda_x < 1 & lambda_x > 0, lambda_x, runif(1));
 		} else {
 			diff_vec = x-y;
-			slope = 1/slope;
 			lambda_x = runif(1);
-			lambda_y = lambda_x*slope + 1/(y[i]+y[j])*sum(diff_vec[S.t.1[[T+1-t]]]);
-			lambda_y = min(1, lambda_y);
+			set_diff = S.t.1[[T+1-t+1]]; set_diff = set_diff[set_diff != i];
+			lambda_y = lambda_x/slope + 1/(y[i]+y[j])*sum(diff_vec[set_diff]);
+			cat("y", lambda_y, "\n");
+			lambda_y = ifelse(lambda_y < 1 & lambda_y > 0, lambda_y, runif(1));
 		}
 		x_new[i] = lambda_x * (x[i] + x[j]);
 		x_new[j] = (1-lambda_x) * (x[i] + x[j]);
 		y_new[i] = lambda_y * (y[i] + y[j]);
 		y_new[j] = (1-lambda_y) * (y[i] + y[j]);
+		cat(t, x_new[i], x_new[j], y_new[i], y_new[j], "\n");
 
 		# MH Step
 		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
@@ -236,14 +244,16 @@ for(t in 1:(T)){
 		if(log_unif_y < min(0, log_rho_y)){
 			y = y_new
 		}
-	} else {
+		# x = x_new; y = y_new;
+	}
+	else {
 		# proportional coupling
 		lambda = runif(1);
 		x_new[i] = lambda * (x[i] + x[j])
 		x_new[j] = (1-lambda) * (x[i] + x[j])
 		y_new[i] = lambda * (y[i] + y[j])
 		y_new[j] = (1-lambda) * (y[i] + y[j])
-
+		cat("prop", t, all(x_new > 0), all(y_new > 0), "\n");
 		# MH Step
 		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
 		log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
@@ -257,8 +267,9 @@ for(t in 1:(T)){
 		if(log_unif_y < min(0, log_rho_y)){
 			y = y_new
 		}
+		# x = x_new; y = y_new;
 	}
 	X[, 1+t] = x; Y[, 1+t] = y;
 }
 
-X[, 1+T] - Y[, 1+T]
+(X[, 1+T] - Y[, 1+T])
