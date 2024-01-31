@@ -13,8 +13,8 @@ library(rBeta2009)
 d = 100 	# Number of families (dimension of the simplex)
 # means = c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28)  # Mean values for each component
 # variances = numeric(d)+1  # Variances for each component
-means = runif(d, -50, 50);
-variances = runif(d, 1, 50);
+means = runif(d, -25, 25);
+variances = runif(d, 5, 15);
 proportions = as.vector(rdirichlet(1, rep(1, d)))  # Proportions for each component
 
 # Number of samples to generate
@@ -198,6 +198,8 @@ for(t in (T+1):2){
 # new markov chains
 X_new = matrix(NA, nrow=d, ncol=T+1);
 Y_new = matrix(NA, nrow=d, ncol=T+1);
+has_coupled = numeric(T+1);
+slope_side = numeric(T+1);
 x = X_new[, 1] = X[, R_prop];
 y = Y_new[, 1] = Y[, R_prop];
 # Subset coupling + proportional coupling
@@ -210,26 +212,46 @@ for(t in 1:(T+1)){
 		# subset coupling
 		slope = (y[i]+y[j])/(x[i]+x[j]);
 		if(slope > 1){
+			slope_side[t] = 1;
 			diff_vec = y-x;
 			lambda_y = runif(1);
 			set_diff = S.t.1[[T+1-t+1]]; set_diff = set_diff[set_diff != i];
 			lambda_x = lambda_y*slope + 1/(x[i]+x[j])*sum(diff_vec[set_diff]);
 			print(sum(diff_vec[set_diff]))
 			cat("x", lambda_x, "\n");
-			lambda_x = ifelse(lambda_x < 1 & lambda_x > 0, lambda_x, runif(1));
+			if(lambda_x < 1 & lambda_x > 0){
+				has_coupled[t] = 1;
+			} else {
+				lambda_x = runif(1);
+			}
 		} else {
+			slope_side[t] = 2;
 			diff_vec = x-y;
 			lambda_x = runif(1);
 			set_diff = S.t.1[[T+1-t+1]]; set_diff = set_diff[set_diff != i];
 			lambda_y = lambda_x/slope + 1/(y[i]+y[j])*sum(diff_vec[set_diff]);
 			cat("y", lambda_y, "\n");
-			lambda_y = ifelse(lambda_y < 1 & lambda_y > 0, lambda_y, runif(1));
+			if(lambda_y < 1 & lambda_y > 0){
+				has_coupled[t] = 1;
+			} else {
+				lambda_y = runif(1);
+			}
 		}
-		x_new[i] = lambda_x * (x[i] + x[j]);
-		x_new[j] = (1-lambda_x) * (x[i] + x[j]);
-		y_new[i] = lambda_y * (y[i] + y[j]);
-		y_new[j] = (1-lambda_y) * (y[i] + y[j]);
-		cat(t, x_new[i], x_new[j], y_new[i], y_new[j], "\n");
+		if(has_coupled[t]){
+			if(slope_side[t] == 1){
+				x_new[i] = y_new[i] = lambda_y * (y[i] + y[j]);
+				x_new[j] = y_new[j] = (1-lambda_y) * (y[i] + y[j]);
+			} else if (slope_side[t] == 2) {
+			   	y_new[i] = x_new[i] = lambda_x * (x[i] + x[j]);
+				y_new[j] = x_new[j] = (1-lambda_x) * (x[i] + x[j]);
+			}
+		} else {
+			x_new[i] = lambda_x * (x[i] + x[j]);
+			x_new[j] = (1-lambda_x) * (x[i] + x[j]);
+			y_new[i] = lambda_y * (y[i] + y[j]);
+			y_new[j] = (1-lambda_y) * (y[i] + y[j]);
+		}
+		cat(t, has_coupled[t], x_new[i], x_new[j], y_new[i], y_new[j], "\n");
 
 		# MH Step
 		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
@@ -272,4 +294,6 @@ for(t in 1:(T+1)){
 	X[, 1+t] = x; Y[, 1+t] = y;
 }
 
-(X[, 1+T] - Y[, 1+T])
+X[, 1+T] - Y[, 1+T]
+X[, 1+T]
+Y[, 1+T]
