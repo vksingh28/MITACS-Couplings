@@ -45,23 +45,6 @@ lines(density(generated_samples), col = "blue", lwd = 2)
 
 #####################################################################################
 
-# gibbs_MH_simplex = function(c, d, total_families) {
-# 	c_new = c
-# 	lambda = runif(1)
-# 	indices = sample(1:d, 2, replace = FALSE)
-# 	i = indices[1]; j = indices[2];
-# 	c_new[i] = lambda * (c[i] + c[j])
-# 	c_new[j] = (1-lambda) * (c[i] + c[j])
-# 	log_rho = sum(total_families)
-# 	# MH step
-# 	log_rho = sum(total_families*log(c_new)) - sum(total_families*log(c))
-# 	log_unif = log(runif(1))
-
-# 	if(log_unif < min(0, log_rho)){
-# 		return(c_new)
-# 	}
-# 	return(c)
-# }
 gibbs_MH_simplex = function(c, d, total_families, delta) {
 	c_new = c
 	lambda = runif(1,-1,1)
@@ -114,7 +97,6 @@ cat("error =", mean((proportions-rowMeans(C))^2), "\n")
 
 
 # TODO: Need to change the algorithm for proportional coupling everywhere
-# TODO: Need to fix the bug as mentioned by aaron in 4.b
 #####################################################################################
 # MH-coupling
 prop_coupling = function(total_families, x, y, d){
@@ -128,19 +110,6 @@ prop_coupling = function(total_families, x, y, d){
 	x_new[j] = (1-lambda) * (x[i] + x[j])
 	y_new[i] = lambda * (y[i] + y[j])
 	y_new[j] = (1-lambda) * (y[i] + y[j])
-# new stuff
-	# flag_x = 0
-	# x_new[i] = x[i] + lambda*delta;
-	# x_new[j] = x[j] - lambda*delta;
-	# if ((min(x_new[i], x_new[j]) < 0) | (max(x_new[i], x_new[j]) > 1)){
-	# 	flag_x = 1
-	# }
-	# flag_y = 0
-	# y_new[i] = y[i] + lambda*delta;
-	# y_new[j] = y[j] - lambda*delta
-	# if ((min(y_new[i], y_new[j]) < 0) | (max(y_new[i], y_new[j]) > 1)){
-	# 	flag_y = 1
-	# }
 	# MH Step
 	log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
 	log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
@@ -148,23 +117,12 @@ prop_coupling = function(total_families, x, y, d){
 	# can use other couplings, rn using the same thing
 	log_unif_x = log_unif_y = log(runif(1))
 
-	# if(!flag_x & log_unif_x < min(0, log_rho_x)){
-	# 	x = x_new
-	# }
-	# if(!flag_y & log_unif_y < min(0, log_rho_y)){
-	# 	y = y_new
-	# }
-
 	if(log_unif_x < log_rho_x){
-		# cat("x, iter ", r, "\n")
 		x = x_new
 	}
 	if(log_unif_y < log_rho_y){
-		# cat("y, iter ", r, "\n")
 		y = y_new
 	}
-	# x = x_new; y = y_new;
-	# cat(mean((x-y)^2), "\n")
 	return(list("x" = x, "y" = y))
 }
 #####################################################################################
@@ -174,7 +132,7 @@ prop_coupling = function(total_families, x, y, d){
 
 # Proportional Coupling
 exp_bound = 5
-R_prop = ceiling(3/2*exp_bound*d*log(d))*200 # Trying out the Theorem of Simplex Mixing Time
+R_prop = ceiling(3/2*exp_bound*d*log(d))*100 # Trying out the Theorem of Simplex Mixing Time
 X = matrix(NA, nrow = d, ncol = R_prop)
 # X = double(matrix(NA, nrow = d, ncol = R_prop))	# Initialize chain randomly
 Y = matrix(NA, nrow = d, ncol = R_prop)	# Initialize chain from the actual distribution using the gibbs sample
@@ -333,24 +291,8 @@ for(t in 1:(T)){
 	}
 	else {
 		# proportional coupling
-		lambda = runif(1);
-		x_new[i] = lambda * (x[i] + x[j])
-		x_new[j] = (1-lambda) * (x[i] + x[j])
-		y_new[i] = lambda * (y[i] + y[j])
-		y_new[j] = (1-lambda) * (y[i] + y[j])
-		# MH Step
-		log_rho_x = sum(total_families*log(x_new)) - sum(total_families*log(x))
-		log_rho_y = sum(total_families*log(y_new)) - sum(total_families*log(y))
-
-		# can use other couplings, rn using the same thing
-		log_unif_x = log_unif_y = log(runif(1));
-
-		if(log_unif_x < min(0, log_rho_x)){
-			x = x_new
-		}
-		if(log_unif_y < min(0, log_rho_y)){
-			y = y_new
-		}
+		coupled_val = prop_coupling(total_families, x, y, d)
+		x = coupled_val$x; y = coupled_val$y
 	}
 	X_new[, 1+t] = x; Y_new[, 1+t] = y;
 }
